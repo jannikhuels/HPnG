@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<HPnG>
+  <places>
+    <discretePlace id="production_on" marking="1"/>
+    <discretePlace id="production_off" marking="0"/>
+    <continuousPlace capacity="20" id="battery" level="10"/>
+  </places>
+  <transitions>
+    <generalTransition cdf="EXP(1.0)" discTime="1" id="repair_grid"
+      priority="1" weight="1"/>
+    <deterministicTransition discTime="2" id="grid_fails" priority="1" weight="1"/>
+    <fluidTransition id="production" priority="1" rate="4" weight="1"/>
+    <fluidTransition id="demand" priority="1" rate="6" weight="1"/>
+  </transitions>
+  <arcs>
+    <discreteArc fromNode="production_on" id="0.9" priority="1"
+      share="1" toNode="grid_fails" weight="1"/>
+    <discreteArc fromNode="grid_fails" id="0.10" priority="1" share="1"
+      toNode="production_off" weight="1"/>
+    <discreteArc fromNode="production_off" id="0.12" priority="1"
+      share="1" toNode="repair_grid" weight="1"/>
+    <discreteArc fromNode="repair_grid" id="0.13" priority="1" share="1"
+      toNode="production_on" weight="1"/>
+    <continuousArc fromNode="production" id="0.2" priority="1" share="1"
+      toNode="battery" weight="1"/>
+    <continuousArc fromNode="battery" id="0.4" priority="1" share="1"
+      toNode="demand" weight="1"/>
+    <guardArc fromNode="production_on" id="0.6" priority="1" share="1"
+      toNode="production" weight="1"/>
+  </arcs>
+</HPnG>
